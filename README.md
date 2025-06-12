@@ -20,20 +20,21 @@ composer require editmode/laravel-comments
 You can publish and run the migrations with:
 
 ```bash
-php artisan vendor:publish --tag="laravel-comments-migrations"
+php artisan vendor:publish --tag="comments-migrations"
 php artisan migrate
 ```
 
 You can publish the config file with:
 
 ```bash
-php artisan vendor:publish --tag="laravel-comments-config"
+php artisan vendor:publish --tag="comments-config"
 ```
 
 This is the contents of the published config file:
 
 ```php
 return [
+    'delete_replies_on_comment_deletion'=>false
 ];
 ```
 
