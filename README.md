@@ -17,6 +17,14 @@ You can install the package via composer:
 composer require editmode/laravel-comments
 ```
 
+You can publish the config file with:
+
+```bash
+php artisan vendor:publish --tag="comments-config"
+```
+
+You can optionally enable the like/dislike feature in the package config. If you choose to use it, make sure to run the `comment_likes` migration (`create_comment_likes_table.php`).
+
 You can publish and run the migrations with:
 
 ```bash
@@ -24,21 +32,9 @@ php artisan vendor:publish --tag="comments-migrations"
 php artisan migrate
 ```
 
-You can publish the config file with:
+> **Note:** If you do not plan to use the like/dislike feature, you may skip running the `comment_likes` migration after publishing.
 
-```bash
-php artisan vendor:publish --tag="comments-config"
-```
-
-This is the contents of the published config file:
-
-```php
-return [
-    'delete_replies_on_comment_deletion'=>false
-];
-```
-
-Optionally, you can publish the views using
+Optionally, you can publish the views using:
 
 ```bash
 php artisan vendor:publish --tag="laravel-comments-views"
