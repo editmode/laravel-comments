@@ -7,17 +7,33 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 trait HasComments
 {
+    protected static function bootHasComments(): void
+    {
+        static::deleting(function (Model $model) {
+            if (config('comments.delete_with_parent', false)) {
+                $model->comments()->delete();
+            }
+        });
+    }
+
     /*
      * Create a comment to this model.
      */
-    public function comment(string $comment): void
+
+    public function comments(): MorphMany
     {
-        $this->commentAsUser(auth()->user(), $comment);
+        return $this->morphMany(config('comments.comment_class'), 'commentable');
     }
 
     /*
      * Create a comment on this model as the specified user.
      */
+
+    public function comment(string $comment): void
+    {
+        $this->commentAsUser(auth()->user(), $comment);
+    }
+
     public function commentAsUser(?Model $user, string $comment): Model
     {
         $commentClass = config('comments.comment_class');
@@ -30,10 +46,5 @@ trait HasComments
         ]);
 
         return $this->comments()->save($comment);
-    }
-
-    public function comments(): MorphMany
-    {
-        return $this->morphMany(config('comments.comment_class'), 'commentable');
     }
 }

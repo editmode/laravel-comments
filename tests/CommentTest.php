@@ -14,3 +14,17 @@ it('attaches a comment to a post', function () {
         ->and($post->comments->first()->comment)->toBe('This is a test comment')
         ->and($post->comments)->toHaveCount(1);
 });
+
+it('deletes associated comments when delete_with_parent config is enabled', function () {
+    $user = User::factory()->create();
+    $post = Post::factory()->create();
+
+    $post->commentAsUser($user, 'This is a test comment');
+
+    expect(Comment::count())->toBe(1);
+
+    $post->delete();
+
+    expect(Comment::count())->toBe(0)
+        ->and(Post::count())->toBe(0);
+});
