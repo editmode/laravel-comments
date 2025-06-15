@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Auth\Access\AuthorizationException;
 use Nika\LaravelComments\Models\Comment;
 use Nika\LaravelComments\Tests\Models\Post;
 use Nika\LaravelComments\Tests\Models\User;
@@ -13,6 +14,13 @@ it('attaches a comment to a post', function () {
     expect($comment)->toBeInstanceOf(Comment::class)
         ->and($post->comments->first()->comment)->toBe('This is a test comment')
         ->and($post->comments)->toHaveCount(1);
+});
+
+it('prevents unauthorized users from commenting', function () {
+    $post = Post::factory()->create();
+
+    expect(fn () => $post->commentAsUser(null, 'This is a test comment'))
+        ->toThrow(AuthorizationException::class);
 });
 
 it('deletes associated comments when delete_with_parent config is enabled', function () {

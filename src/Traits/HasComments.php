@@ -36,10 +36,13 @@ trait HasComments
 
     public function commentAsUser(?Model $user, string $comment): Model
     {
+        if (! $user) {
+            throw new \Illuminate\Auth\Access\AuthorizationException('User not specified');
+        }
         $commentClass = config('comments.comment_class');
 
         $comment = new $commentClass([
-            'user_id' => is_null($user) ? null : $user->getKey(),
+            'user_id' => $user->getKey(),
             'comment' => $comment,
             'commentable_id' => $user->getKey(),
             'commentable_type' => get_class($this),
