@@ -17,25 +17,43 @@ You can install the package via composer:
 composer require editmode/laravel-comments
 ```
 
+## Config
 You can publish the config file with:
 
 ```bash
 php artisan vendor:publish --tag="comments-config"
 ```
 
-You can optionally enable the like/dislike feature in the package config. If you choose to use it, make sure to run the `comment_likes` migration (`create_comment_likes_table.php`).
+You can optionally enable the **like/dislike** feature in the package **config**. If you choose to use it, make sure to run the `comment_likes` migration (`create_comment_likes_table.php`).
 
+## Migrations
 You can publish and run the migrations with:
 
 ```bash
-php artisan vendor:publish --tag="comments-migrations"
+php artisan vendor:publish --provider="Vendor\Package\ServiceProvider" --tag="migrations"
+```
+
+Then run the migrations:
+
+```bash
 php artisan migrate
 ```
 
-> **Note:** If you do not plan to use the like/dislike feature, you may skip running the `comment_likes` migration after publishing.
+> ⚠️ The `create_comment_reactions_table` migration will be skipped unless the `like_dislike_feature` setting is enabled in your `config/comments.php` file.
+> If you plan to use the like/dislike feature, make sure to publish the **config** first and set `like_dislike_feature` to true before running `php artisan migrate`.
+</file>
 
-Optionally, you can publish the views using:
 
+## Routes
+You can register the package's routes by calling the macro in your `routes/web.php`:
+
+```php
+Route::comments();
+```
+
+This will automatically register routes like `GET /comments`, and if the like/dislike feature is enabled, also `POST /comments/{comment}/react/{type}` — where `{type}` must be either `like` or `dislike`.
+
+## Views
 ```bash
 php artisan vendor:publish --tag="laravel-comments-views"
 ```

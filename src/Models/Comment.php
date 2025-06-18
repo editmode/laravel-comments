@@ -43,16 +43,16 @@ class Comment extends Model
 
     public function likeCount(): int
     {
-        return $this->likes()->where('is_liked', true)->count();
+        return $this->reactions()->where('is_liked', true)->count();
     }
 
-    public function likes(): HasMany
+    public function reactions(): HasMany
     {
-        return $this->hasMany(CommentLike::class);
+        return $this->hasMany(CommentReaction::class);
     }
 
     public function dislikeCount(): int
     {
-        return $this->likes()->where('is_liked', false)->count();
+        return $this->reactions()->where('is_liked', false)->count();
     }
 }

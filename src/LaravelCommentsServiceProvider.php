@@ -2,7 +2,8 @@
 
 namespace Nika\LaravelComments;
 
-use Nika\LaravelComments\Commands\LaravelCommentsCommand;
+use Illuminate\Support\Facades\Route;
+use Nika\LaravelComments\Http\Controllers\CommentReactionController;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
@@ -20,7 +21,28 @@ class LaravelCommentsServiceProvider extends PackageServiceProvider
             ->hasConfigFile()
             //            ->hasViews()
             ->hasMigration('create_comments_table')
-            ->hasMigration('create_comment_likes_table');
+            ->hasMigration('create_comment_likes_table')
+            ->hasMigration('create_comment_reactions_table');
         //            ->hasCommand(LaravelCommentsCommand::class);
+    }
+
+    public function registeringPackage(): void
+    {
+        Route::macro('comments', function ($baseUrl = 'comments') {
+            Route::prefix($baseUrl)->group(function () {
+
+                Route::get('/', fn () => 'OK!');
+
+                if (config('comments.like_dislike_feature')) {
+                    Route::middleware('auth')->group(function () {
+
+                        Route::post('{comment}/react/{type}', [CommentReactionController::class, 'toggle'])
+                            ->where('type', 'like|dislike')
+                            ->middleware('auth')
+                            ->name('comment.reaction.toggle');
+                    });
+                }
+            });
+        });
     }
 }

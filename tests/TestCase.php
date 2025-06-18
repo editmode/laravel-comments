@@ -3,6 +3,7 @@
 namespace Nika\LaravelComments\Tests;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Route;
 use Nika\LaravelComments\LaravelCommentsServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
 
@@ -15,7 +16,7 @@ class TestCase extends Orchestra
         $commentsMig = include __DIR__.'/../database/migrations/create_comments_table.php.stub';
         $commentsMig->up();
 
-        $likesMig = include __DIR__.'/../database/migrations/create_comment_likes_table.php.stub';
+        $likesMig = include __DIR__.'/../database/migrations/create_comment_reactions_table.php.stub';
         $likesMig->up();
 
         /*
@@ -42,4 +43,9 @@ class TestCase extends Orchestra
             LaravelCommentsServiceProvider::class,
         ];
     }
+    //
+    //        protected function defineRoutes($router)
+    //        {
+    //            Route::comments();
+    //        }
 }
