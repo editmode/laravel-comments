@@ -3,6 +3,7 @@
 namespace Nika\LaravelComments;
 
 use Illuminate\Support\Facades\Route;
+use Nika\LaravelComments\Http\Controllers\CommentController;
 use Nika\LaravelComments\Http\Controllers\CommentReactionController;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
@@ -32,15 +33,14 @@ class LaravelCommentsServiceProvider extends PackageServiceProvider
 
                 Route::get('/', fn () => 'OK!');
 
-                if (config('comments.like_dislike_feature')) {
-                    Route::middleware('auth')->group(function () {
-
+                Route::middleware('auth')->group(function () {
+                    if (config('comments.like_dislike_feature')) {
                         Route::post('{comment}/react/{type}', [CommentReactionController::class, 'toggle'])
                             ->where('type', 'like|dislike')
-                            ->middleware('auth')
                             ->name('comment.reaction.toggle');
-                    });
-                }
+                    }
+                    Route::delete('comments/{comment}/destroy', [CommentController::class, 'destroy']);
+                });
             });
         });
     }

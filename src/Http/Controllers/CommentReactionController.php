@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 class CommentReactionController
 {
-    public function toggle(Request $request, $id, string $type)
+    public function toggle(Request $request, int $id, string $type)
     {
         abort_unless(
             config('comments.like_dislike_feature'),
