@@ -6,13 +6,12 @@ use Exception;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
-use Nika\LaravelComments\Traits\HasComments;
+use Nika\LaravelComments\Traits\HasReactions;
 
 class Comment extends Model
 {
-    use HasComments;
+    use HasReactions;
 
     protected $fillable = [
         'user_id',
@@ -40,21 +39,6 @@ class Comment extends Model
         return config('comments.user_model')
             ?? config('auth.providers.users.model')
             ?? throw new Exception('Could not determine user model name');
-    }
-
-    public function likeCount(): int
-    {
-        return $this->reactions()->where('type', 'like')->count();
-    }
-
-    public function reactions(): HasMany
-    {
-        return $this->hasMany(CommentReaction::class);
-    }
-
-    public function dislikeCount(): int
-    {
-        return $this->reactions()->where('type', 'dislike')->count();
     }
 
     public function deleteComment(?Authenticatable $user, int $commentId): void

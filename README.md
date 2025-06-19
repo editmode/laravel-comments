@@ -24,13 +24,29 @@ You can publish the config file with:
 php artisan vendor:publish --tag="comments-config"
 ```
 
-You can optionally enable the **like/dislike** feature in the package **config**. If you choose to use it, make sure to run the `comment_likes` migration (`create_comment_likes_table.php`).
+### Like/Dislike Feature
+
+You can optionally enable the **like/dislike** feature in the package **config**.
+To enable this feature:
+
+1. Set `like_dislike_feature` to `true` in `config/comments.php`.
+2. Add the `HasReactions` trait to your custom comment model.
+
+```php
+use Nika\LaravelComments\Traits\HasReactions;
+
+class CustomComment extends \Nika\LaravelComments\Models\Comment
+{
+    use HasReactions;
+}
+```
+
 
 ## Migrations
 You can publish and run the migrations with:
 
 ```bash
-php artisan vendor:publish --provider="Vendor\Package\ServiceProvider" --tag="migrations"
+php artisan vendor:publish --provider="Nika\LaravelComments\LaravelCommentsServiceProvider" --tag="comments-migrations"
 ```
 
 Then run the migrations:

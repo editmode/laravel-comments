@@ -21,7 +21,6 @@ class LaravelCommentsServiceProvider extends PackageServiceProvider
             ->hasConfigFile()
             //            ->hasViews()
             ->hasMigration('create_comments_table')
-            ->hasMigration('create_comment_likes_table')
             ->hasMigration('create_comment_reactions_table');
         //            ->hasCommand(LaravelCommentsCommand::class);
     }
