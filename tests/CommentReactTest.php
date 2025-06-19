@@ -77,3 +77,58 @@ it('toggles comment dislike reaction', function () {
     assertDatabaseEmpty('comment_reactions');
 
 });
+
+it('returns correct like count', function () {
+
+    $user = User::factory()->create();
+    actingAs($user);
+
+    $post = Post::factory()->create();
+
+    $comment = $post->commentAsUser($user, 'This is a Test comment');
+
+    Post(route('comment.reaction.toggle', ['comment' => $comment->id, 'type' => 'like']))
+        ->assertOk();
+
+    expect($comment->fresh()->likeCount())->toBe(1);
+});
+
+it('returns correct dislike count', function () {
+
+    $user = User::factory()->create();
+    actingAs($user);
+
+    $post = Post::factory()->create();
+
+    $comment = $post->commentAsUser($user, 'This is a Test comment');
+
+    Post(route('comment.reaction.toggle', ['comment' => $comment->id, 'type' => 'dislike']))
+        ->assertOk();
+
+    expect($comment->fresh()->dislikeCount())->toBe(1);
+});
+
+it('removes reactions when a comment is deleted', function () {
+
+    $user = User::factory()->create();
+    actingAs($user);
+
+    $post = Post::factory()->create();
+
+    assertDatabaseEmpty('comments');
+    assertDatabaseEmpty('comment_reactions');
+
+    $comment = $post->commentAsUser($user, 'This is a Test comment');
+
+    assertDatabaseCount('comments', 1);
+
+    post(route('comment.reaction.toggle', ['comment' => $comment->id, 'type' => 'like']))
+        ->assertOk();
+
+    expect($comment->likeCount())->toBe(1);
+
+    $comment->deleteComment($user, $comment->id);
+
+    assertDatabaseEmpty('comments');
+    expect($comment->likeCount())->toBe(1);
+});

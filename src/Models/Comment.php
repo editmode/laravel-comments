@@ -3,6 +3,7 @@
 namespace Nika\LaravelComments\Models;
 
 use Exception;
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -43,7 +44,7 @@ class Comment extends Model
 
     public function likeCount(): int
     {
-        return $this->reactions()->where('is_liked', true)->count();
+        return $this->reactions()->where('type', 'like')->count();
     }
 
     public function reactions(): HasMany
@@ -53,6 +54,18 @@ class Comment extends Model
 
     public function dislikeCount(): int
     {
-        return $this->reactions()->where('is_liked', false)->count();
+        return $this->reactions()->where('type', 'dislike')->count();
+    }
+
+    public function deleteComment(?Authenticatable $user, int $commentId): void
+    {
+        abort_if(! $user, 403);
+
+        $commentClass = config('comments.comment_class');
+        $comment = app($commentClass)->findOrFail($commentId);
+
+        abort_unless(($user->getAuthIdentifier()) === $comment->user_id, 403);
+
+        $comment->delete();
     }
 }
