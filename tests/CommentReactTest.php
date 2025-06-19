@@ -132,3 +132,17 @@ it('removes reactions when a comment is deleted', function () {
     assertDatabaseEmpty('comments');
     expect($comment->likeCount())->toBe(1);
 });
+
+it('redirects unauthorized users when reacting to a comment', function () {
+
+    Route::get('/login', fn () => 'login')->name('login');
+
+    $user = User::factory()->create();
+    $post = Post::factory()->create();
+
+    $comment = $post->commentAsUser($user, 'This is a Test comment');
+
+    post(route('comment.reaction.toggle', ['comment' => $comment->id, 'type' => 'dislike']))
+        ->assertRedirect(route('login'));
+
+});

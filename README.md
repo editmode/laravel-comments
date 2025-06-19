@@ -7,8 +7,6 @@
 
 This is where your description should go. Limit it to a paragraph or two. Consider adding a small example.
 
-
-
 ## Installation
 
 You can install the package via composer:
@@ -18,6 +16,7 @@ composer require editmode/laravel-comments
 ```
 
 ## Config
+
 You can publish the config file with:
 
 ```bash
@@ -41,8 +40,8 @@ class CustomComment extends \Nika\LaravelComments\Models\Comment
 }
 ```
 
-
 ## Migrations
+
 You can publish and run the migrations with:
 
 ```bash
@@ -55,21 +54,32 @@ Then run the migrations:
 php artisan migrate
 ```
 
-> ⚠️ The `create_comment_reactions_table` migration will be skipped unless the `like_dislike_feature` setting is enabled in your `config/comments.php` file.
-> If you plan to use the like/dislike feature, make sure to publish the **config** first and set `like_dislike_feature` to true before running `php artisan migrate`.
+> ⚠️ The `create_comment_reactions_table` migration will be skipped unless the `like_dislike_feature` setting is enabled
+> in your `config/comments.php` file.
+> If you plan to use the like/dislike feature, make sure to publish the **config** first and set `like_dislike_feature`
+> to true before running `php artisan migrate`.
 </file>
 
-
 ## Routes
+
 You can register the package's routes by calling the macro in your `routes/web.php`:
 
 ```php
 Route::comments();
 ```
 
-This will automatically register routes like `GET /comments`, and if the like/dislike feature is enabled, also `POST /comments/{comment}/react/{type}` — where `{type}` must be either `like` or `dislike`.
+This will automatically register routes like `GET /comments`, and if the like/dislike feature is enabled,
+also `POST /comments/{comment}/react/{type}` — where `{type}` must be either `like` or `dislike`.
+
+### Published Routes:
+
+| Method   | URI                       | Name                    |
+|----------|---------------------------|-------------------------|
+| **GET**  | `/comments`               | comments.index          |
+| **POST** | `/{comment}/react/{type}` | comment.reaction.toggle |
 
 ## Views
+
 ```bash
 php artisan vendor:publish --tag="laravel-comments-views"
 ```
