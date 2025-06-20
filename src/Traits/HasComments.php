@@ -10,7 +10,7 @@ trait HasComments
     protected static function bootHasComments(): void
     {
         static::deleting(function (Model $model) {
-            if (!config('comments.delete_with_parent', false)) {
+            if (! config('comments.delete_with_parent', false)) {
                 if (app()->environment('local')) {
                     logger()->warning('delete_with_parent is disabled - comments will not be deleted with parent.');
                 }
@@ -41,7 +41,7 @@ trait HasComments
 
     public function commentAsUser(?Model $user, string $comment): Model
     {
-        if (!$user) {
+        if (! $user) {
             throw new \Illuminate\Auth\Access\AuthorizationException('User not specified');
         }
         $commentClass = config('comments.comment_class');

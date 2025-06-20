@@ -4,6 +4,7 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Nika\LaravelComments\Models\Comment;
 use Nika\LaravelComments\Tests\Models\Post;
 use Nika\LaravelComments\Tests\Models\User;
+
 use function Pest\Laravel\actingAs;
 use function Pest\Laravel\patch;
 
@@ -21,12 +22,12 @@ it('attaches a comment to a post', function () {
 it('prevents unauthorized users from commenting', function () {
     $post = Post::factory()->create();
 
-    expect(fn() => $post->commentAsUser(null, 'This is a test comment'))
+    expect(fn () => $post->commentAsUser(null, 'This is a test comment'))
         ->toThrow(AuthorizationException::class);
 });
 
 it('deletes associated comments when delete_with_parent config is enabled', function () {
-    Route::get('/login', fn() => 'login')
+    Route::get('/login', fn () => 'login')
         ->name('login');
 
     config()->set('comments.delete_with_parent', true);
@@ -48,7 +49,7 @@ it('deletes associated comments when delete_with_parent config is enabled', func
 });
 
 it('updates a comment', function () {
-    Route::get('/login', fn() => 'login')
+    Route::get('/login', fn () => 'login')
         ->name('login');
 
     $user = User::factory()->create();
