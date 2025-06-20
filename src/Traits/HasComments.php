@@ -10,9 +10,14 @@ trait HasComments
     protected static function bootHasComments(): void
     {
         static::deleting(function (Model $model) {
-            if (config('comments.delete_with_parent', false)) {
-                $model->comments()->delete();
+            if (! config('comments.delete_with_parent', false)) {
+                if (app()->environment('local')) {
+                    logger()->warning('delete_with_parent is disabled - comments will not be deleted with parent.');
+                }
+
+                return;
             }
+            $model->comments()->delete();
         });
     }
 

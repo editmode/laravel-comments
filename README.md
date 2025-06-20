@@ -58,7 +58,6 @@ php artisan migrate
 > in your `config/comments.php` file.
 > If you plan to use the like/dislike feature, make sure to publish the **config** first and set `like_dislike_feature`
 > to true before running `php artisan migrate`.
-</file>
 
 ## Routes
 
@@ -71,12 +70,18 @@ Route::comments();
 This will automatically register routes like `GET /comments`, and if the like/dislike feature is enabled,
 also `POST /comments/{comment}/react/{type}` — where `{type}` must be either `like` or `dislike`.
 
+By default, routes are prefixed with `/comments`. You can change this by passing a different base URL
+to `Route::comments('your-prefix')`.
+> 💡 See [Development Tips](#development-tips) for filtering the route list.
+
 ### Published Routes:
 
-| Method   | URI                       | Name                    |
-|----------|---------------------------|-------------------------|
-| **GET**  | `/comments`               | comments.index          |
-| **POST** | `/{comment}/react/{type}` | comment.reaction.toggle |
+| Method      | URI                                | Name                    |
+|-------------|------------------------------------|-------------------------|
+| **GET**     | `/{prefix}`                        | —                       |
+| **DELETE**  | `/{prefix}/{comment}`              | comment.destroy         |
+| **POST**    | `/{prefix}/{comment}/react/{type}` | comment.reaction.toggle |
+
 
 ## Views
 
@@ -90,6 +95,19 @@ php artisan vendor:publish --tag="laravel-comments-views"
 $laravelComments = new Nika\LaravelComments();
 echo $laravelComments->echoPhrase('Hello, Nika!');
 ```
+> ⚠️ If you want related comments to be deleted when the parent is deleted, set `delete_with_parent` to `true` in `config/comments.php`
+
+## Development Tips
+
+### Filtering Routes
+
+To list only the routes registered by this package:
+
+```bash
+php artisan route:list --path=comments
+```
+
+This helps when debugging or inspecting how the package integrates into your app.
 
 ## Testing
 

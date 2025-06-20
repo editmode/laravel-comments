@@ -39,7 +39,9 @@ class LaravelCommentsServiceProvider extends PackageServiceProvider
                             ->where('type', 'like|dislike')
                             ->name('comment.reaction.toggle');
                     }
-                    Route::delete('comments/{comment}/destroy', [CommentController::class, 'destroy']);
+
+                    Route::delete('{comment}', [CommentController::class, 'destroy'])
+                        ->name('comment.destroy');
                 });
             });
         });

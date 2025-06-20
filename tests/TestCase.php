@@ -43,10 +43,9 @@ class TestCase extends Orchestra
             LaravelCommentsServiceProvider::class,
         ];
     }
-    //
-    //        protected function defineRoutes($router)
-    //        {
-    //            Route::comments();
-    //        }
 
+    protected function defineRoutes($router): void
+    {
+        Route::comments();
+    }
 }

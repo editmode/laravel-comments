@@ -14,7 +14,7 @@ class CommentReactionController
             __('This feature is disabled')
         );
 
-        $user = $request->user();
+        abort_if(! $user = $request->user(), 401);
 
         $commentClass = config('comments.comment_class');
 

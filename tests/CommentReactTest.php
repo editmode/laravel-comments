@@ -6,6 +6,7 @@ use Nika\LaravelComments\Tests\Models\User;
 use function Pest\Laravel\actingAs;
 use function Pest\Laravel\assertDatabaseCount;
 use function Pest\Laravel\assertDatabaseEmpty;
+use function Pest\Laravel\delete;
 use function Pest\Laravel\post;
 
 beforeEach(function () {
@@ -127,7 +128,7 @@ it('removes reactions when a comment is deleted', function () {
 
     expect($comment->likeCount())->toBe(1);
 
-    $comment->deleteComment($user, $comment->id);
+    delete(route('comment.destroy', $comment->id));
 
     assertDatabaseEmpty('comments');
     expect($comment->likeCount())->toBe(1);
