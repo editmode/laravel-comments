@@ -4,8 +4,8 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Nika\LaravelComments\Models\Comment;
 use Nika\LaravelComments\Tests\Models\Post;
 use Nika\LaravelComments\Tests\Models\User;
-
 use function Pest\Laravel\actingAs;
+use function Pest\Laravel\patch;
 
 it('attaches a comment to a post', function () {
     $user = User::factory()->create();
@@ -14,20 +14,19 @@ it('attaches a comment to a post', function () {
     $comment = $post->commentAsUser($user, 'This is a test comment');
 
     expect($comment)->toBeInstanceOf(Comment::class)
-        ->and($post->comments->first()->comment)->toBe('This is a test comment')
+        ->and($post->comments->first()->body)->toBe('This is a test comment')
         ->and($post->comments)->toHaveCount(1);
 });
 
 it('prevents unauthorized users from commenting', function () {
     $post = Post::factory()->create();
 
-    expect(fn () => $post->commentAsUser(null, 'This is a test comment'))
+    expect(fn() => $post->commentAsUser(null, 'This is a test comment'))
         ->toThrow(AuthorizationException::class);
 });
 
 it('deletes associated comments when delete_with_parent config is enabled', function () {
-
-    Route::get('/login', fn () => 'login')
+    Route::get('/login', fn() => 'login')
         ->name('login');
 
     config()->set('comments.delete_with_parent', true);
@@ -46,4 +45,24 @@ it('deletes associated comments when delete_with_parent config is enabled', func
 
     expect(Post::count())->toBe(0)
         ->and(Comment::count())->toBe(0);
+});
+
+it('updates a comment', function () {
+    Route::get('/login', fn() => 'login')
+        ->name('login');
+
+    $user = User::factory()->create();
+    actingAs($user);
+
+    $post = Post::factory()->create();
+
+    $comment = $post->commentAsUser($user, 'This is a test comment');
+
+    expect(Comment::count())->toBe(1);
+
+    patch(route('comment.update', $comment->id),
+        ['body' => 'updated comment'])
+        ->assertOk();
+
+    expect($comment->fresh()->body)->toBe('updated comment');
 });

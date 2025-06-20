@@ -14,7 +14,7 @@ class Comment extends Model
 
     protected $fillable = [
         'user_id',
-        'comment',
+        'body',
     ];
 
     public function commentable(): MorphTo

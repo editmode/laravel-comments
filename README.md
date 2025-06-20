@@ -76,12 +76,12 @@ to `Route::comments('your-prefix')`.
 
 ### Published Routes:
 
-| Method      | URI                                | Name                    |
-|-------------|------------------------------------|-------------------------|
-| **GET**     | `/{prefix}`                        | —                       |
-| **DELETE**  | `/{prefix}/{comment}`              | comment.destroy         |
-| **POST**    | `/{prefix}/{comment}/react/{type}` | comment.reaction.toggle |
-
+| Method     | URI                                | Name                    |
+|------------|------------------------------------|-------------------------|
+| **GET**    | `/{prefix}`                        | —                       |
+| **PATCH**  | `/{prefix}/{comment}`              | comment.update          |
+| **DELETE** | `/{prefix}/{comment}`              | comment.destroy         |
+| **POST**   | `/{prefix}/{comment}/react/{type}` | comment.reaction.toggle |
 
 ## Views
 
@@ -95,7 +95,9 @@ php artisan vendor:publish --tag="laravel-comments-views"
 $laravelComments = new Nika\LaravelComments();
 echo $laravelComments->echoPhrase('Hello, Nika!');
 ```
-> ⚠️ If you want related comments to be deleted when the parent is deleted, set `delete_with_parent` to `true` in `config/comments.php`
+
+> ⚠️ If you want related comments to be deleted when the parent is deleted, set `delete_with_parent` to `true`
+> in `config/comments.php`
 
 ## Development Tips
 
