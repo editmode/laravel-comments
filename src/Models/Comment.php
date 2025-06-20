@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Nika\LaravelComments\Traits\HasReactions;
 
+/**
+ * @property-read string $body
+ */
 class Comment extends Model
 {
     use HasReactions;

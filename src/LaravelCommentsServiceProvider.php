@@ -31,7 +31,7 @@ class LaravelCommentsServiceProvider extends PackageServiceProvider
         Route::macro('comments', function ($baseUrl = 'comments') {
             Route::prefix($baseUrl)->group(function () {
 
-                Route::get('/', fn () => 'OK!');
+                Route::get('/', fn() => 'OK!');
 
                 Route::middleware('auth')->group(function () {
                     if (config('comments.like_dislike_feature')) {
@@ -39,6 +39,9 @@ class LaravelCommentsServiceProvider extends PackageServiceProvider
                             ->where('type', 'like|dislike')
                             ->name('comment.reaction.toggle');
                     }
+                    Route::post('/', [CommentController::class, 'store'])
+                        ->name('comment.store');
+
                     Route::patch('{comment}', [CommentController::class, 'update'])
                         ->name('comment.update');
 
