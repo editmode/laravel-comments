@@ -24,14 +24,14 @@ class CommentController
     private function authorizeCommentAccess(Request $request, $comment): void
     {
         $user = $request->user();
-        abort_if(!$user, 403);
+        abort_if(! $user, 403);
         abort_unless($user->id === $comment->user_id, 403);
     }
 
     public function store(Request $request)
     {
         $user = $request->user();
-        abort_if(!$user, 403);
+        abort_if(! $user, 403);
 
         $validated = request()->validate([
             'commentable_id' => 'required|integer',
@@ -43,7 +43,6 @@ class CommentController
         $model = $modelClass::findOrFail($validated['commentable_id']);
 
         $model->commentAsUser($user, $validated['body']);
-
 
     }
 
