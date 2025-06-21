@@ -15,7 +15,7 @@ class CommentReaction extends Model
 
     public function comment(): BelongsTo
     {
-        return $this->belongsTo(config('comments.comment_class'));
+        return $this->belongsTo(config('comments.comment_class'), 'comment_id');
     }
 
     public function user(): BelongsTo

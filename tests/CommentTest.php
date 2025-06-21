@@ -4,7 +4,6 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Nika\LaravelComments\Models\Comment;
 use Nika\LaravelComments\Tests\Models\Post;
 use Nika\LaravelComments\Tests\Models\User;
-use Nika\LaravelComments\Traits\HasComments;
 
 use function Pest\Laravel\actingAs;
 use function Pest\Laravel\patch;
@@ -82,6 +81,7 @@ it('creates comment from controller', function () {
         'body' => 'This is a test comment',
     ])
         ->assertOk();
+
     expect(Comment::count())->toBe(1)
         ->and(Comment::first()->body)->toBe('This is a test comment');
 });
@@ -91,31 +91,19 @@ it('creates a reply', function () {
     Route::get('login', fn () => 'Login')
         ->name('login');
 
-    $parentComment = new class extends Comment
-    {
-        use HasComments;
-
-        protected $table = 'comments';
-    };
-
     actingAs($user = User::factory()->create());
 
-    $parentComment->fill([
-        'user_id' => $user->id,
-        'commentable_id' => 1,
-        'commentable_type' => Post::class,
-        'body' => 'Parent comment',
-    ]);
+    $post = Post::factory()->create();
 
-    $parentComment->save();
+    $comment = $post->commentAsUser($user, 'This is a test comment');
 
     post(route('comment.store'), [
-        'commentable_id' => $parentComment->id,
-        'commentable_type' => get_class($parentComment),
+        'commentable_id' => $comment->id,
+        'commentable_type' => get_class($comment),
         'body' => 'Replied comment',
     ])
         ->assertOk();
 
     expect(Comment::count())->toBe(2)
-        ->and($parentComment->fresh()->comments()->first()->body)->toBe('Replied comment');
+        ->and($comment->fresh()->comments()->first()->body)->toBe('Replied comment');
 });

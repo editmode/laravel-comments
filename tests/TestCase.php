@@ -5,6 +5,7 @@ namespace Nika\LaravelComments\Tests;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Route;
 use Nika\LaravelComments\LaravelCommentsServiceProvider;
+use Nika\LaravelComments\Tests\Models\Comment;
 use Orchestra\Testbench\TestCase as Orchestra;
 
 class TestCase extends Orchestra
@@ -35,6 +36,7 @@ class TestCase extends Orchestra
         Factory::guessFactoryNamesUsing(
             fn (string $modelName) => 'Nika\\LaravelComments\\Database\\Factories\\'.class_basename($modelName).'Factory'
         );
+        config()->set('comments.comment_class', Comment::class);
     }
 
     protected function getPackageProviders($app): array

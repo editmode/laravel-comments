@@ -45,37 +45,37 @@ After installing the package, it's recommended that you create your own custom `
 ```bash
 composer require editmode/laravel-comments
 ```
-
-### 2. Publish the config (optional but recommended)
-
+### 2. Publish the configuration file (optional but recommended):
 ```bash
-php artisan vendor:publish --tag="comments-config"
+php artisan vendor:publish --tag=comments-config
 ```
 
-### 3. Create a custom Comment model
+### 3. Create your own Comment model by extending the base comment model:
+
+
+> 🚨 **VERY IMPORTANT**  
+> For Laravel's polymorphic relationships to work *automatically* without manual configuration, your custom model **must** be named `Comment`.
+> If you use any other name (like `UserComment`, `PostComment`, etc.), morph types like `commentable_type` will not resolve correctly unless you manually configure a morph map. Laravel automatically handles this when your model is named `Comment`.
 
 ```php
-namespace App\Models;
-
 use Nika\LaravelComments\Models\Comment as BaseComment;
-use Nika\LaravelComments\Traits\HasReactions; // Optional, only if using reactions
 
+        
 class Comment extends BaseComment
+         ↑
 {
-    use HasReactions;
-
     // Add your own relationships, scopes, or overrides here
 }
 ```
 
-
-### 4. Update the config to use your custom model
-
-In `config/comments.php`, set the `comment_class` to point to your new model:
+### 4. Update your configuration file `config/comments.php` to use your custom Comment model:
 
 ```php
-'comment_class' => \App\Models\Comment::class,
+return [
+    'model' => App\Models\Comment::class,
+];
 ```
+
 
 This setup allows you to fully control how comments behave in your application while leveraging the core features provided by the package.
 
@@ -127,9 +127,10 @@ To enable this feature:
 2. Add the `HasReactions` trait to your custom comment model.
 
 ```php
+use Nika\LaravelComments\Models\Comment as BaseComment;
 use Nika\LaravelComments\Traits\HasReactions;
 
-class CustomComment extends \Nika\LaravelComments\Models\Comment
+class Comment extends BaseComment
 {
     use HasReactions;
 }
