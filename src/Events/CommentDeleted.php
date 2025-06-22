@@ -1,0 +1,19 @@
+<?php
+
+namespace Nika\LaravelComments\Events;
+
+use Illuminate\Broadcasting\InteractsWithSockets;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\SerializesModels;
+use Nika\LaravelComments\Models\Comment;
+
+class CommentDeleted
+{
+    use Dispatchable, InteractsWithSockets, SerializesModels;
+
+    public function __construct(
+        public Comment $comment
+    ) {
+    }
+}

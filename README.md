@@ -50,6 +50,17 @@ composer require editmode/laravel-comments
 php artisan vendor:publish --tag=comments-config
 ```
 
+### 2.5. Publish the migrations
+
+The package includes migrations to create the comments and comment reactions tables.  
+You should publish them using:
+
+```bash
+php artisan vendor:publish --tag="comments-migrations"
+```
+
+> 🛑 **Important:** If you plan to use the like/dislike feature, make sure to also publish the config file first and enable it in `config/comments.php` by setting `like_dislike_feature` to `true`. Otherwise, the `comment_reactions` table will not be created during migration.
+
 ### 3. Create your own Comment model by extending the base comment model:
 
 
@@ -180,11 +191,14 @@ to `Route::comments('your-prefix')`.
 | **DELETE** | `/{prefix}/{comment}`              | comment.destroy         |
 | **POST**   | `/{prefix}/{comment}/react/{type}` | comment.reaction.toggle |
 
-## Views
+[//]: # (## Views)
 
-```bash
-php artisan vendor:publish --tag="laravel-comments-views"
-```
+[//]: # ()
+[//]: # (```bash)
+
+[//]: # (php artisan vendor:publish --tag="laravel-comments-views")
+
+[//]: # (```)
 
 
 > ⚠️ If you want related comments to be deleted when the parent is deleted, set `delete_with_parent` to `true`
@@ -216,14 +230,16 @@ Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed re
 
 Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
-## Security Vulnerabilities
+[//]: # (## Security Vulnerabilities)
 
-Please review [our security policy](../../security/policy) on how to report security vulnerabilities.
+[//]: # ()
+[//]: # (Please review [our security policy]&#40;../../security/policy&#41; on how to report security vulnerabilities.)
 
 ## Credits
 
 - [Nika](https://github.com/editmode)
-- [All Contributors](../../contributors)
+
+[//]: # (- [All Contributors]&#40;../../contributors&#41;)
 
 ## License
 
