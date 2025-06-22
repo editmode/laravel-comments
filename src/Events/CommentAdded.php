@@ -13,7 +13,5 @@ class CommentAdded
 
     public function __construct(
         public Comment $comment
-    )
-    {
-    }
+    ) {}
 }

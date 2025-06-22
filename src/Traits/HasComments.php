@@ -21,7 +21,7 @@ trait HasComments
             }
 
             // Handle parent model comment deletion
-            if (!config('comments.delete_with_parent', false)) {
+            if (! config('comments.delete_with_parent', false)) {
                 if (app()->environment('local')) {
                     logger()->warning('delete_with_parent is disabled - comments will not be deleted with parent.');
                 }
@@ -30,7 +30,7 @@ trait HasComments
             }
 
             // Only delete comments of non-Comment models (e.g., Post, User)
-            if (!($model instanceof Comment)) {
+            if (! ($model instanceof Comment)) {
                 $model->comments()->delete();
             }
         });
@@ -62,7 +62,7 @@ trait HasComments
 
     public function commentAsUser(?Model $user, string $comment): Model
     {
-        if (!$user) {
+        if (! $user) {
             throw new \Illuminate\Auth\Access\AuthorizationException('User not specified');
         }
         $commentClass = config('comments.comment_class');

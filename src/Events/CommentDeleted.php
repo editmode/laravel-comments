@@ -3,7 +3,6 @@
 namespace Nika\LaravelComments\Events;
 
 use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use Nika\LaravelComments\Models\Comment;
@@ -14,6 +13,5 @@ class CommentDeleted
 
     public function __construct(
         public Comment $comment
-    ) {
-    }
+    ) {}
 }
