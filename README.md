@@ -1,9 +1,6 @@
 # Laravel Comments
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/editmode/laravel-comments.svg?style=flat-square)](https://packagist.org/packages/editmode/laravel-comments)
-[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/editmode/laravel-comments/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/editmode/laravel-comments/actions?query=workflow%3Arun-tests+branch%3Amain)
-[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/editmode/laravel-comments/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/editmode/laravel-comments/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
-
 [![Total Downloads](https://img.shields.io/packagist/dt/editmode/laravel-comments.svg?style=flat-square)](https://packagist.org/packages/editmode/laravel-comments)
 
 A customizable Laravel package to easily add comments and threaded discussions to any model — ideal for blog posts, user profiles, product reviews, or any other entity in your app.
@@ -226,9 +223,10 @@ composer test
 
 Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
 
-## Contributing
+[//]: # (## Contributing)
 
-Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
+[//]: # ()
+[//]: # (Please see [CONTRIBUTING]&#40;CONTRIBUTING.md&#41; for details.)
 
 [//]: # (## Security Vulnerabilities)
 
