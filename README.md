@@ -15,7 +15,8 @@ Supports optional like/dislike reactions, nested replies, and is designed to int
 - [Like/Dislike Feature](#likedislike-feature)
 - [Migrations](#migrations)
 - [Routes](#routes)
-- [Views](#views)
+
+[//]: # (- [Views]&#40;#views&#41;)
 - [Development Tips](#development-tips)
 - [Testing](#testing)
 - [Changelog](#changelog)
