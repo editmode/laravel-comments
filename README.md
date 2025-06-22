@@ -198,8 +198,6 @@ to `Route::comments('your-prefix')`.
 [//]: # (```)
 
 
-> ⚠️ If you want related comments to be deleted when the parent is deleted, set `delete_with_parent` to `true`
-> in `config/comments.php`
 
 ## Development Tips
 
@@ -213,6 +211,9 @@ php artisan route:list --path=comments
 
 This helps when debugging or inspecting how the package integrates into your app.
 
+[//]: # (> ⚠️ If you want related comments to be deleted when the parent is deleted, set `delete_with_parent` to `true`)
+
+[//]: # (> in `config/comments.php`)
 ## Testing
 
 ```bash
